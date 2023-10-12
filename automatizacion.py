@@ -208,27 +208,32 @@ def enviar_email(archivo_adjunto):
         saludo = "Buenas Tardes"
     emisor = credenciales.correo  # Cambia esto por tu dirección de correo Gmail
     clave = credenciales.contraseña  # Cambia esto por tu contraseña de correo Gmail
-    receptores = ["gustavoboadalugo@gmail.com","gustavoserviplus@gmail.com"]  # Cambia esto por la dirección de correo destino
+    receptores = ["ghalmaca@gmail.com","omgghalmacatransporte@gmail.com","ivansanchez085@gmail.com","fdiaz@ghalmaca.com.ve","gustavoserviplus@gmail.com"]  # Cambia esto por la dirección de correo destino
 
-    asunto = f"Reporte GPS TRACKER"
-    cuerpo = f"""{saludo} reciban un cordial saludo, en este archivo podrán visualizar informacion obtenida de GPS TRACKER del dia {fecha_formateada} que muestra:
-
-            - Reporte donde la Unidad Estuvo encendida, que muestra la fecha de la ultima ubicacion. y la direccion donde se encuentra.
-            - Reporte de Exceso de Velocidad agrupado por Unidad y estado, que muestra la cantidad de veces que se excedio de 100 km/h, y la velcidad exactas excediad separadas por comas. 
-            - Reporte del recorrido que muestra los kilometros y horas del recorrido.
-
-Reporte enviado por Francisco Diaz Coordinador de transporte.
-
-
-Este es un correo automatizado por Gustavo Boada 
-Data Analyst Senior.
-Tlf: 04141240654 / 04126050917"""
+    asunto = "Reporte GPS TRACKER"
+    cuerpo_html = f"""
+    <html>
+        <head></head>
+        <body>
+            <h3>{saludo}</h3>
+            <h4>Reciban un cordial saludo, en este archivo podrán visualizar información obtenida de GPS TRACKER del día <strong>{fecha_formateada}</strong> que muestra:</h4>
+            <ul>
+                <li>Reporte donde la Unidad Estuvo encendida, muestra la fecha de la última ubicación y la dirección donde se encuentra.</li>
+                <li>Reporte de Exceso de Velocidad agrupado por Unidad y Estado y muestra la cantidad de veces que se excedió de 100 km/h, y la velocidad exactas excedida separadas por comas.</li>
+                <li>Reporte del recorrido que muestra los kilómetros y horas del recorrido.</li></ul>
+            <p style='color: blue;'><strong>Reporte enviado por Francisco Diaz Coordinador de transporte.</strong></p>
+            <p><strong>Este es un correo automatizado por Gustavo Boada.</strong></p>
+            <p>Data Analyst Senior.</p>
+            <p>Tlf: 04141240654 / 04126050917</p>
+        </body>
+    </html>
+    """
 
     em = EmailMessage()
     em["From"] = emisor
     em["To"] = ", ".join(receptores)
     em["Subject"] = asunto
-    em.set_content(cuerpo)
+    em.add_alternative(cuerpo_html, subtype='html')
 
     # Leer el contenido del archivo PDF cargado desde el uploader
     archivo = archivo_adjunto.read()
