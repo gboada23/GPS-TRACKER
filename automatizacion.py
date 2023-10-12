@@ -208,7 +208,7 @@ def enviar_email(archivo_adjunto):
         saludo = "Buenas Tardes"
     emisor = credenciales.correo  # Cambia esto por tu dirección de correo Gmail
     clave = credenciales.contraseña  # Cambia esto por tu contraseña de correo Gmail
-    receptores = ["ghalmaca@gmail.com","omgghalmacatransporte@gmail.com","ivansanchez085@gmail.com","fdiaz@ghalmaca.com.ve","gustavoserviplus@gmail.com"]  # Cambia esto por la dirección de correo destino
+    receptores = ["ghalmaca@gmail.com","omgghalmacatransporte@gmail.com","ivansanchez085@gmail.com","logistica@ghalmacatransporte.com","gustavoserviplus@gmail.com"]  # Cambia esto por la dirección de correo destino
 
     asunto = "Reporte GPS TRACKER"
     cuerpo_html = f"""
@@ -228,7 +228,6 @@ def enviar_email(archivo_adjunto):
         </body>
     </html>
     """
-
     em = EmailMessage()
     em["From"] = emisor
     em["To"] = ", ".join(receptores)
