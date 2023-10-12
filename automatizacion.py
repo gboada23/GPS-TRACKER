@@ -217,7 +217,9 @@ def enviar_email(archivo_adjunto):
             - Reporte de Exceso de Velocidad agrupado por Unidad y estado, que muestra la cantidad de veces que se excedio de 100 km/h, y la velcidad exactas excediad separadas por comas. 
             - Reporte del recorrido que muestra los kilometros y horas del recorrido.
 
-                
+Reporte enviado por Francisco Diaz Coordinador de transporte.
+
+
 Este es un correo automatizado por Gustavo Boada 
 Data Analyst Senior.
 Tlf: 04141240654 / 04126050917"""
