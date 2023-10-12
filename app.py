@@ -5,22 +5,17 @@ from automatizacion import GPS, ultima_ubicacion, uso_vehiculo, exceso_velocidad
 from PIL import Image
 
 logo = Image.open(r'imagenes/logo.png')
-
+gps = Image.open(r'imagenes/GPS.png')
 st.set_page_config(
     page_title="UNIDADES | GPS   ",
     page_icon="🚛",
     layout="wide")
 def main():
-    st.sidebar.image(logo, width=310)
-    st.sidebar.title('Generador de reportes')
-    st.sidebar.write('Clickea para generar los 3 reportes desde la pagina Tracker-GPS.')
-
-    if st.sidebar.button('Generar reportes'):
-        # Configurar el webdriver (esto podría ser Chrome, Firefox, etc.)
-        # Asegúrate de tener el driver correspondiente instalado
-        # Define tus credenciales aquí o consíguelas de alguna manera segura
-        GPS()
-        st.sidebar.success('Archivos descargados desde TRACKERGPS correctamente!')
+    st.sidebar.title('GENERADOR DE REPORTE')
+    st.sidebar.image(logo, width=270)
+    
+    st.sidebar.write("---")
+    st.sidebar.image(gps, width= 270)
     st.markdown(
     """<div style= padding: 5px; border-radius:5px;'>
     <span style='color: ##1D20FA; font-size: 3.5em;'><center><b>Procesamiento de Archivos de Excel</center></span>
