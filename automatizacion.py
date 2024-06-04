@@ -4,51 +4,36 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.action_chains import ActionChains
-import credenciales
 import streamlit as st
-import smtplib
-import ssl
+import smtplib, ssl
 from email.message import EmailMessage
 import pandas as pd
 from datetime import datetime
 import time
 
 def GPS():
-    #browser = webdriver.Chrome('./chromedriver.exe')
     browser = webdriver.Chrome()
-    browser.set_window_size(1530, 1200)  # Ejemplo para una resolución de pantalla de 1920x1080
-
-    # Abre GPS TRACKER
+    browser.set_window_size(1530, 1200) # tamaño de la resolcion de pantalla
     browser.get('https://www.trackergps.com/ven/clientes')
-
-    wait = WebDriverWait(browser, 30)
-    # Ingresa usuario y contraseña
+    wait = WebDriverWait(browser, 20)
     username_elem = wait.until(EC.presence_of_element_located((By.ID, 'txtUserLogin')))
-    username_elem.send_keys(credenciales.usuario)
+    username_elem.send_keys(st.secrets['usuario'])  # Ingresa usuario
     password_elem = wait.until(EC.presence_of_element_located((By.ID, 'txtPassword')))
-    password_elem.send_keys(credenciales.clave)
+    password_elem.send_keys(st.secrets['password']) # Ingresa contraseña
     password_elem.send_keys(Keys.RETURN)
-    # hacemos click en la ventana ok
-    ok_button = wait.until(EC.element_to_be_clickable((By.XPATH,"//button[text()='OK']")))
-    ok_button.click()
-    #hacemos click en el boton menu
-    button = browser.find_element(By.CSS_SELECTOR, "button.navbar-toggler")
-    button.click()
-    # seleccionamos la opcion menu
-    reportes_element = browser.find_element(By.XPATH, "//span[@class='menu-title' and text()=' Reportes']")
-    reportes_element.click()
+    ok_button = wait.until(EC.element_to_be_clickable((By.XPATH,"//button[text()='OK']"))).click() # hacemos click en la ventana ok
+    button = browser.find_element(By.CSS_SELECTOR, "button.navbar-toggler").click()  #hacemos click en el boton menu
+    # seleccionamos la opcion menu inspeccionamos el XPATH Y CLICKEAMOS
+    reportes_element = browser.find_element(By.XPATH, "//span[@class='menu-title' and text()=' Reportes']").click()
     # luego el submenu reportes
-    reportes_link = wait.until(EC.element_to_be_clickable((By.XPATH, "//a[@class='nav-link' and text()='Reportes ']")))
-    # Hacemos click en el enlace
-    reportes_link.click()
-    # buscamos la opcion lhistorico de localizacion
+    reportes_link = wait.until(EC.element_to_be_clickable((By.XPATH, "//a[@class='nav-link' and text()='Reportes ']"))).click()     # Hacemos click en el enlace
+    # buscamos la opcion historico de localizacion
     localizacion = wait.until(EC.visibility_of_element_located((By.XPATH, "//span[contains(text(), 'Históricos de localización')]")))
     # Hacemos clic en el historial de localizacion
     localizacion.click()
     # Buscamos el reporte de exceso de velocidad
-    exceso_velocidad = wait.until(EC.visibility_of_element_located((By.XPATH, "//span[contains(text(), 'Reporte de Exceso de Velocidad')]")))
-    # Hacer clic en Reporte de exceso de velocidad
-    exceso_velocidad.click()
+    exceso_velocidad = wait.until(EC.visibility_of_element_located((By.XPATH, "//span[contains(text(), 'Reporte de Exceso de Velocidad')]"))).click() # Hacer clic en Reporte de exceso de velocidad
+    
     # buscamos el switch
     switch_button = wait.until(EC.visibility_of_element_located((By.CLASS_NAME, 'dx-switch-handle')))
     # Hacer clic en el switch
@@ -134,7 +119,6 @@ def GPS():
     time.sleep(2)
     browser.get('https://cloud.ve.trackergps.com/home')
     return "Proceso culiminado"
-
 def exceso_velocidad(excel):
     # Cargar el archivo Excel en un DataFrame
     df = pd.read_excel(excel, header=8)
@@ -152,6 +136,8 @@ def exceso_velocidad(excel):
     df_filtrado = df_filtrado.copy()
     # Agrupar por "Unidad " (con espacio) y agregar las velocidades en una lista
     df_filtrado['Alta velocidad'] = df_filtrado.groupby(['Unidad ', 'Estado '])["Velocidad (km/h)"].transform(lambda x: ', '.join(map(str, x)))
+    df_filtrado['Alta velocidad'] = df_filtrado['Alta velocidad'].apply(lambda x: x.replace('.0', ''))
+
     # Eliminar duplicados
     df_final = df_filtrado.drop_duplicates(subset='Unidad ').reset_index(drop=True)
     # Agrupar por "Unidad " y "Estado " y agregar las velocidades en una lista
@@ -206,8 +192,9 @@ def enviar_email(archivo_adjunto):
         saludo = "Buenos Dias"
     else:
         saludo = "Buenas Tardes"
-    emisor = credenciales.correo  # Cambia esto por tu dirección de correo Gmail
-    clave = credenciales.contraseña  # Cambia esto por tu contraseña de correo Gmail
+    emisor = st.secrets["correo"]
+   # Cambia esto por tu dirección de correo Gmail
+    clave = st.secrets["clave"]  # Cambia esto por tu contraseña de correo Gmail
     receptores = ["ghalmaca@gmail.com","omgghalmacatransporte@gmail.com","ivansanchez085@gmail.com","logistica@ghalmacatransporte.com","gustavoserviplus@gmail.com"]  # Cambia esto por la dirección de correo destino
 
     asunto = "Reporte GPS TRACKER"
