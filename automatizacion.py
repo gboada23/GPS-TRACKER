@@ -19,7 +19,7 @@ def GPS():
     username_elem = wait.until(EC.presence_of_element_located((By.ID, 'txtUserLogin')))
     username_elem.send_keys(st.secrets['usuario'])  # Ingresa usuario
     password_elem = wait.until(EC.presence_of_element_located((By.ID, 'txtPassword')))
-    password_elem.send_keys(st.secrets['password']) # Ingresa contraseña
+    password_elem.send_keys(st.secrets['clave']) # Ingresa contraseña
     password_elem.send_keys(Keys.RETURN)
     ok_button = wait.until(EC.element_to_be_clickable((By.XPATH,"//button[text()='OK']"))).click() # hacemos click en la ventana ok
     button = browser.find_element(By.CSS_SELECTOR, "button.navbar-toggler").click()  #hacemos click en el boton menu
@@ -193,8 +193,7 @@ def enviar_email(archivo_adjunto):
     else:
         saludo = "Buenas Tardes"
     emisor = st.secrets["correo"]
-   # Cambia esto por tu dirección de correo Gmail
-    clave = st.secrets["clave"]  # Cambia esto por tu contraseña de correo Gmail
+    clave = st.secrets["contrasena"]  
     receptores = ["ghalmaca@gmail.com","omgghalmacatransporte@gmail.com","ivansanchez085@gmail.com","logistica@ghalmacatransporte.com","gustavoserviplus@gmail.com"]  # Cambia esto por la dirección de correo destino
 
     asunto = "Reporte GPS TRACKER"
