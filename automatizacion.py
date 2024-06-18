@@ -5,12 +5,11 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.action_chains import ActionChains
 import streamlit as st
-import smtplib, ssl
+import smtplib,ssl
 from email.message import EmailMessage
 import pandas as pd
 from datetime import datetime
 import time
-
 def GPS():
     browser = webdriver.Chrome()
     browser.set_window_size(1530, 1200) # tamaño de la resolcion de pantalla
@@ -33,7 +32,6 @@ def GPS():
     localizacion.click()
     # Buscamos el reporte de exceso de velocidad
     exceso_velocidad = wait.until(EC.visibility_of_element_located((By.XPATH, "//span[contains(text(), 'Reporte de Exceso de Velocidad')]"))).click() # Hacer clic en Reporte de exceso de velocidad
-    
     # buscamos el switch
     switch_button = wait.until(EC.visibility_of_element_located((By.CLASS_NAME, 'dx-switch-handle')))
     # Hacer clic en el switch
@@ -195,7 +193,6 @@ def enviar_email(archivo_adjunto):
     emisor = st.secrets["correo"]
     clave = st.secrets["contrasena"]  
     receptores = ["ghalmaca@gmail.com","omgghalmacatransporte@gmail.com","ivansanchez085@gmail.com","logistica@ghalmacatransporte.com","gustavoserviplus@gmail.com"]  # Cambia esto por la dirección de correo destino
-
     asunto = "Reporte GPS TRACKER"
     cuerpo_html = f"""
     <html>
@@ -219,13 +216,10 @@ def enviar_email(archivo_adjunto):
     em["To"] = ", ".join(receptores)
     em["Subject"] = asunto
     em.add_alternative(cuerpo_html, subtype='html')
-
     # Leer el contenido del archivo PDF cargado desde el uploader
     archivo = archivo_adjunto.read()
     em.add_attachment(archivo, maintype="application", subtype="pdf", filename=f"Reporte-{fecha_formateada}.pdf")
-
     contexto = ssl.create_default_context()
-
     try:
         with smtplib.SMTP_SSL("smtp.gmail.com", 465, context=contexto) as smtp:
             smtp.login(emisor, clave)
