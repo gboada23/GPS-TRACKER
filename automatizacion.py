@@ -196,20 +196,27 @@ def enviar_email(archivo_adjunto):
     asunto = "Reporte GPS TRACKER"
     cuerpo_html = f"""
     <html>
-        <head></head>
         <body>
-            <h3>{saludo}</h3>
-            <h4>Reciban un cordial saludo, en este archivo podrán visualizar información obtenida de GPS TRACKER del día <strong>{fecha_formateada}</strong> que muestra:</h4>
-            <ul>
-                <li>Reporte donde la Unidad Estuvo encendida, muestra la fecha de la última ubicación y la dirección donde se encuentra.</li>
-                <li>Reporte de Exceso de Velocidad agrupado por Unidad y Estado y muestra la cantidad de veces que se excedió de 100 km/h, y la velocidad exactas excedida separadas por comas.</li>
-                <li>Reporte del recorrido que muestra los kilómetros y horas del recorrido.</li></ul>
-            <p style='color: blue;'><strong>Reporte enviado por Francisco Diaz Coordinador de transporte.</strong></p>
-            <p><strong>Este es un correo automatizado por Gustavo Boada.</strong></p>
-            <p>Data Analyst Senior.</p>
-            <p>Tlf: 04141240654 / 04126050917</p>
+            <div style='background: #828080db; margin: 10px auto; padding: 30px; text-align: center; width: 500px; box-sizing: border-box;'>
+                <img src='https://ghalmaca.com/wp-content/uploads/TRANSPORTE.png' style='width: 200px' alt='Logo de Ghalmaca Transporte'>
+            </div>
+            <div style='width: 500px; margin: 0 auto; background-color: #FFF; padding: 20px; box-sizing: border-box;'>
+                <h4>{saludo} saludos cordiales,</h4>
+                <p style='text-align: justify;'>En este informe automatizado encontrará los datos recopilados por el sistema GPS TRACKER correspondientes al <strong>{fecha_formateada}</strong>, con la siguiente información detallada:</p>
+                <ul style='text-align: justify;'>
+                    <li><strong>Reporte de Encendido:</strong> Incluye la fecha de la última ubicación registrada y la dirección exacta donde se encuentra la unidad.</li>
+                    <li><strong>Reporte de Excesos de Velocidad:</strong> Agrupado por unidad y estado, mostrando la cantidad de infracciones donde se superaron los 100 km/h, con las velocidades específicas excedidas listadas separadas por comas.</li>
+                    <li><strong>Reporte de Recorrido:</strong> Contiene el detalle de los kilómetros recorridos y la duración total del trayecto en horas.</li>
+                </ul>
+                <p style='text-align: center; font-weight: bold;'>Reporte generado y validado por Francisco Diaz, Coordinador de Transporte.</p>
+            </div>
+            <div style='width: 500px; background: #828080db; padding: 15px 30px; text-align: center; margin: 10px auto; box-sizing: border-box;'>
+                <p style='text-align: center; margin: 0;'><strong>Automatizado por,<br> Gustavo Boada <br>Coordinador de Tecnología</strong></p><br>
+                <p style='margin: 0;text-align: left;'><b>NOTA:</b> Este es un correo generado automáticamente. Por favor, no responda a este correo.</p>
+            </div>
         </body>
     </html>
+
     """
     em = EmailMessage()
     em["From"] = emisor
